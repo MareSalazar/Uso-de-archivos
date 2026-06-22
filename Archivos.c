@@ -15,6 +15,7 @@ typedef struct {
 
 void mostrarAlumno(Alumno *a);
 void guardarArchivo(Alumno *a);
+void leerArchivo();
 
 
 int main(){
@@ -51,15 +52,35 @@ void mostrarAlumno(Alumno *a){
 void guardarArchivo(Alumno *a){
     FILE *archivo = fopen ("alumnos.txt","w");
     //(.txt) es para referirnos a archivos planos, es decir solo de texto
-    //Modificador de acceso write (w)
+    //Modo de acceso write (w)
     for (int i; i<2; i++){
     fprintf(archivo, "Nombre:%s \n" , a[i].nombre);
-    //fprintf necesita el paso de referencia, primero el nombre de el puntero y el dato
+    //fprintf necesita el paso de referencia, primero el nombre de el puntero al archivo y el dato
     fprintf(archivo, "Edad: %d \n " , a[i].edad);
     fprintf(archivo,"Direccion: %s %d %s", a[i].direccion.callePrincipal,a[i].direccion.numCasa, a[i].direccion.calleSecundaria );
-
+    printf("------------------------------------------ \n");
     }
     fclose(archivo);
     
 };
+
+void leerArchivo(){
+    FILE *archivo = fopen ("alumnos.txt","r");
+    //Ahora implementamos el modificador de acceso [r] porque queremos leer el archivo
+    //Debemos siempre validar si el archivo existe o esta en la direccion a la que apunta el puntero *archivo
+    if (archivo==NULL){
+        printf("No se pudo abrir el archivo");
+        return;
+        //ya que no hay nada mas que hacer, ya que no hay archivo y no lo podemos leer
+    }
+    
+    char linea[150];
+    //buffer es un espacio temporal
+    while (fgets(linea, 150, archivo)){
+        printf("%s", linea);
+    }
+    
+    fclose(archivo);
+};
+
  
